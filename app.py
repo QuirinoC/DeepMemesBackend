@@ -4,10 +4,9 @@ from models import *
 import os
 
 connection = connect('deep_memes_database',
-        host='localhost',
-        port=27017,username='root',
-        password='root',
-        authentication_source='admin')
+        host='deep_memes_database',
+        port=27017
+        )
 #connect('deep_memes_database')
 
 app = Flask(__name__)

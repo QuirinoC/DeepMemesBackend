@@ -1,6 +1,7 @@
 version: '3'
 services:
   web:
+    container_name: deep_memes_backend
     restart: on-failure
     build: .
     ports:
@@ -13,8 +14,9 @@ services:
       - db
   db:
     image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+    container_name: deep_memes_database
+    volumes:
+      - ~/data/db:/data/db
     ports:
-      - 27017:27017
+      - "27017:27017"
+      
