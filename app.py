@@ -8,12 +8,17 @@ def register():
 
 @app.route('/upload', methods=['GET'])
 def getImageLink():
-    return 'Imagen bien chida'
+    res = {}
+    res['status']  = "OK"
+    res['message'] = "Link a una foto chida"
+    res['quirino'] = "Wapo"
+    res = jsonify(res)
+    return make_response(res)
 
 @app.route('/upload', methods=['POST'])
 def postImageLink():
     req       = request.json
-    test      = req.get("test")
+    test      = req.get("link")
     print(test)
     return test
 
