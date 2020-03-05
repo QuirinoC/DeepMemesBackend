@@ -18,8 +18,8 @@ def getImageLink():
 @app.route('/upload', methods=['POST'])
 def postImageLink():
     req       = request.json
-    test      = req.get("link")
-    print(test)
-    return test
+    link      = req.get("link")
+    print(link)
+    return make_response("<h1>"+link+"</h1>")
 
 app.run('0.0.0.0', '8080', debug=True)
