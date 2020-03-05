@@ -1,0 +1,1 @@
+docker run -it --rm deep_memes_backend
