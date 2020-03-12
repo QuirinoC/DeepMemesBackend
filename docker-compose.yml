@@ -19,4 +19,18 @@ services:
       - ~/data/db:/data/db
     ports:
       - "27017:27017"
+  webhook:
+        restart: unless-stopped
+        image: staticfloat/docker-webhook
+        volumes:
+            # Mount this code into /code
+            - ./:/usr/app
+            # Mount the docker socket
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            - WEBHOOK_SECRET=DoNotUploadSecretToGitHub
+            - WEBHOOK_HOOKS_DIR=/usr/app/hooks
+            - WEBHOOK_BRANCH_LIST=master
+        expose:
+            - 8000
       
