@@ -1,7 +1,10 @@
 from flask import Flask, jsonify, make_response, request, render_template, Response
+
 from mongoengine import *
 from models import *
 import os
+
+from flask_cors import CORS
 
 connection = connect('deep_memes_database',
         host='deep_memes_database',
@@ -10,6 +13,7 @@ connection = connect('deep_memes_database',
 #connect('deep_memes_database')
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def register():
