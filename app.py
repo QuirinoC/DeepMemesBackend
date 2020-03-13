@@ -40,7 +40,7 @@ def postUser():
 
 @app.route('/submission/relatedto')
 def submissionRelatedTo():
-    # here we want to get the value of user (i.e. ?user=some-value)
-    return jsonify(request.args)
+    queries = request.args["tags"].split(",")
+    return jsonify(queries)
 
 app.run('0.0.0.0', '8080', debug=True)
