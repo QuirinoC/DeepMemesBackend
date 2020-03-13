@@ -17,7 +17,7 @@ cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 @app.route('/')
 def register():
-    return 'DeepMemesBackendAPI'
+    return 'Servidorino APIrino'
 
 @app.route('/upload', methods=['GET'])
 def getImageLink():
