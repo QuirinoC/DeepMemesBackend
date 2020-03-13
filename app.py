@@ -4,7 +4,7 @@ from mongoengine import *
 from models import *
 import os
 
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 connection = connect('deep_memes_database',
         host='deep_memes_database',
@@ -13,7 +13,7 @@ connection = connect('deep_memes_database',
 #connect('deep_memes_database')
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 @app.route('/')
 def register():
@@ -22,13 +22,7 @@ def register():
 @app.route('/upload', methods=['GET'])
 def getImageLink():
     res = {}
-    res['status']  = "OK"
-    res['message'] = "Link a una foto chida"
-    res['quirino'] = "Wapo"
-    res = []
-    for link in Link.objects():
-        res.append(link.Link)
-    return '\n'.join(res)
+    return '\n'.join((link.Link for link in Link.objects()))
 
 @app.route('/upload', methods=['POST'])
 def postImageLink():
@@ -36,5 +30,17 @@ def postImageLink():
     link      = req.get("link")
     Link(Link=link).save()
     return make_response("<h1>"+link+"</h1>")
+
+@app.route('/user', methods=['POST'])
+def postUser():
+    req       = request.json
+    link      = req.get("user")
+    Link(Link=link).save()
+    return make_response("<h1>"+user+"</h1>")
+
+@app.route('/submission/relatedto')
+def submissionRelatedTo():
+    # here we want to get the value of user (i.e. ?user=some-value)
+    return jsonify(request.args)
 
 app.run('0.0.0.0', '8080', debug=True)
