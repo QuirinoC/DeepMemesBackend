@@ -36,5 +36,4 @@ def postImageLink():
     link      = req.get("link")
     Link(Link=link).save()
     return make_response("<h1>"+link+"</h1>")
-
 app.run('0.0.0.0', '8080', debug=True)
