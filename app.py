@@ -43,5 +43,4 @@ def submissionRelatedTo():
     # here we want to get the value of user (i.e. ?user=some-value)
     return jsonify(request.args)
 
-
 app.run('0.0.0.0', '8080', debug=True)
