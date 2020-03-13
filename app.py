@@ -17,7 +17,7 @@ cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 @app.route('/')
 def register():
-    return 'servidorino funcionarino'
+    return 'DeepMemesBackendAPI'
 
 @app.route('/upload', methods=['GET'])
 def getImageLink():
@@ -42,6 +42,6 @@ def postUser():
 def submissionRelatedTo():
     queries = request.args["tags"].split(",")
     return jsonify(queries)
-    
+
 
 app.run('0.0.0.0', '8080', debug=True)
