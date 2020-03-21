@@ -15,32 +15,36 @@ connection = connect('deep_memes_database',
 app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 
+class Submission(Document):
+    link = StringField(required=True)
+    tags = ListField(StringField(max_length=30))
+
 @app.route('/')
 def register():
     return 'Servidorino APIrino'
 
-@app.route('/upload', methods=['GET'])
+@app.route('/submission', methods=['GET'])
 def getImageLink():
     res = {}
-    return '\n'.join((link.Link for link in Link.objects()))
+    return '\n'.join(((submissions.link + ":" + submissions.tags[0] + "\n") for submissions in Submission.objects()))
 
-@app.route('/upload', methods=['POST'])
+@app.route('/submission', methods=['POST'])
 def postImageLink():
     req       = request.json
-    link      = req.get("link")
-    Link(Link=link).save()
-    return make_response("<h1>"+link+"</h1>")
-
-@app.route('/user', methods=['POST'])
-def postUser():
-    req       = request.json
-    link      = req.get("user")
-    Link(Link=link).save()
-    return make_response("<h1>"+user+"</h1>")
+    submission= Submission(link = req.get("link"))
+    submission.tags = req.get("tags").split(",")
+    submission.save()
+    return make_response("<h1>"+submission.link+"</h1>")
 
 @app.route('/submission/relatedto')
 def submissionRelatedTo():
+    res = []
     queries = request.args["tags"].split(",")
-    return jsonify(queries)
+    for submission in Submission.objects:
+        for tag in submission.tags:
+            for query in queries:
+                if tag == query:
+                    res.append(submission.link)
+    return jsonify(res)
  
 app.run('0.0.0.0', '8080', debug=True)
