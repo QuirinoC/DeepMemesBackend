@@ -19,7 +19,14 @@ class Submission(Document):
     tags = ListField(StringField(max_length=30))
 
 @app.route('/')
-def register():
+def root():
     return jsonify('Classifier API')
+
+@app.route('/classify', methods=['POST'])
+def upload_image():
+    print(request)
+    return jsonify({
+        'message' : 'ok'
+    })
  
 app.run('0.0.0.0', '8080', debug=True)
