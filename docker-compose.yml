@@ -12,6 +12,7 @@ services:
       - ./:/usr/app
     depends_on:
       - db
+      - classifier
   db:
     image: mongo
     container_name: deep_memes_database
@@ -19,4 +20,11 @@ services:
       - ~/data/db:/data/db
     ports:
       - "27017:27017"
-      
+  classifier:
+    container_name: deem_memes_classifer
+    restart: on-failure
+    build: classifier/.
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./classifier/:/usr/app
