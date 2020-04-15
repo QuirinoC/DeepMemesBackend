@@ -3,6 +3,7 @@ from flask import Flask, jsonify, make_response, request, render_template, Respo
 from mongoengine import *
 from models import *
 import os
+import random
 
 from flask_cors import CORS, cross_origin
 
@@ -40,11 +41,38 @@ def postImageLink():
 def submissionRelatedTo():
     res = []
     queries = request.args["tags"].split(",")
+    if 'limit' in request.args:
+        resLimit = int(request.args["limit"])
+    else :
+        resLimit = 20
+    count = 0
     for submission in Submission.objects:
         for tag in submission.tags:
             for query in queries:
-                if tag == query:
+                if tag == query and count < resLimit:
                     res.append(submission.link)
+                    count+=1
+                if count >= resLimit:
+                    break
+    return jsonify(res)
+
+@app.route('/submission/random')
+def submissionRandom():
+    res = []
+    burnt = []
+    if 'limit' in request.args:
+        resLimit = int(request.args["limit"])
+    else :
+        resLimit = 20
+    count = 0
+    while count < resLimit:
+        if count >= len(Submission.objects):
+            break
+        target = random.randrange(0,len(Submission.objects), 1)
+        if target not in burnt:
+            count+=1
+            burnt.append(target)
+            res.append(Submission.objects[target].link+":"+Submission.objects[target].tags[0])
     return jsonify(res)
  
 app.run('0.0.0.0', '8080', debug=True)
