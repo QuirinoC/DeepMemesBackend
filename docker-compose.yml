@@ -3,13 +3,15 @@ services:
   web:
     container_name: deep_memes_backend
     restart: on-failure
-    build: .
+    build: 
+      context: .
+      dockerfile: ./api/Dockerfile
     ports:
       - "8080:8080"
     links:
       - db
     volumes:
-      - ./:/usr/app
+      - ./api/:/usr/app
     depends_on:
       - db
       - classifier
@@ -21,9 +23,11 @@ services:
     ports:
       - "27017:27017"
   classifier:
-    container_name: deem_memes_classifer
+    container_name: deep_memes_classifer
     restart: on-failure
-    build: classifier/.
+    build: 
+      context: .
+      dockerfile: ./classifier/Dockerfile
     ports:
       - "8090:8080"
     volumes:

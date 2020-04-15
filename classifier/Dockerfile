@@ -2,9 +2,11 @@ FROM python
 
 WORKDIR  /usr/app
 
-COPY requirements.txt .
+COPY ./python_modules/requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY ./classifier/ .
+
+RUN ls -la
 
 CMD python3 app.py
