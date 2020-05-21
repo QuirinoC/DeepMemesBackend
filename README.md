@@ -20,13 +20,14 @@ sh run.sh
 ## Models
 
 ### Meme
-- iud
+- uid
 - link
-- name
+- title
 - idUser
 - comentarios
 - likes
 - dislikes
+- tags
 
 ### User
 - uid
