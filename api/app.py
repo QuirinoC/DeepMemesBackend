@@ -65,20 +65,15 @@ def memeRelatedTo():
     for meme in Meme.objects:
         for tag in meme.tags:
             for query in queries:
-                if tag == query and count < resLimit:
-                    res.append({"link": meme.link, "title": meme.title, "email": meme.email,
-                                "likes": meme.likes, "dislikes": meme.dislikes, "comments": meme.comments, "id": meme.id, })
+                obj = {"link": meme.link, "title": meme.title, "email": meme.email, "likes": meme.likes,
+                       "dislikes": meme.dislikes, "comments": meme.comments, "id": str(meme.id), }
+                if tag == query and count < resLimit and obj not in res:
+                    res.append(obj)
                     count += 1
                 if count >= resLimit:
                     break
+    print(res)
     return jsonify(res)
-    # link = StringField(required=True)
-    # tags = ListField(StringField(max_length=30))
-    # title = StringField(required=True)
-    # email = StringField(required=True)
-    # comments = ListField(StringField(max_length=300))
-    # likes = IntField(required=True)
-    # dislikes = IntField(required=True)
 
 
 @app.route('/getRandom')
@@ -168,18 +163,17 @@ def createComment():
     return make_response("Success")
 
 
-@app.route('/updateUserTags', methods=['POST'])
-def updateUserTags():
-    req = request.json
-    targetUser = req.get("email")
-    tag = req.get("tags")
-    print(targetUser)
-    user = User.objects.get(email=targetUser)
-    if(not(tag in user.tags)):
-        print(user.tags)
-        # user.tags.append(tag)
-    user.save()
-    return make_response("Success")
+# @app.route('/updateUserTags', methods=['POST'])
+# def updateUserTags():
+#     req = request.json
+#     targetUser = req.get("email")
+#     tag = req.get("tags")
+#     user = User.objects.get(email=targetUser)
+#     if(tag not in user.tags):
+#         print(user.tags)
+#         # user.tags.append(tag)
+#     # user.save()
+#     return make_response("Success")
 
 
 @app.route('/reaction', methods=['POST'])
@@ -194,7 +188,8 @@ def reaction():
         meme.likes = meme.likes + 1
         user = User.objects.get(email=targetUser)
         for tag in meme.tags:
-            user.tags.append(tag)
+            if(tag not in user.tags):
+                user.tags.append(tag)
         meme.save()
         user.save()
         return make_response("Liked")
