@@ -15,6 +15,19 @@ Flask - Python
 sh build.sh
 sh run.sh
 ```
+## TASKS FRONT END
+ - [PACO] REMPLAZAR POPULAR -> RANDOM
+ - [PACO] WHO TO FOLLOW -> PROFILE
+ - [PACO] UI PROFILE 
+      + LIKES
+      + COMMENTS
+ - [PACO] MEJORAR UI AUTH
+ - [PACO] MEJORAR MEMECARD
+ - [PACO] CREAR MEMEDETAILS.VUE (PARA VER LOS COMENTARIOS)
+ - [RICKY] SUBIR MEMES
+ - [RICKY] COMENTARIOS Y LIKES
+ - [RICKY] ACTUALIZAR TAGS
+
 # API
 
 ## Models
@@ -45,42 +58,42 @@ sh run.sh
   + nombre
   + link
 
-### /getRelatedTo:tags GET
+### /getRelatedTo:tags GET 
 - response
   + array:Memes
 
-### /getRandom GET
+### /getRandom GET [PACO] (REMPLAZAR POPULAR -> RANDOM)
 - response
   + array:Memes
 
-### /getComments:memeUid GET
+### /getComments:memeUid GET [RICKY]
 - response
   + array:Comment
 
-### /getReactions:memeUid GET
+### /getReactions:memeUid GET [RICKY]
 - response
   + likes
   + dislikes
 
-### /createUser POST
+### /createUser POST [RICKY]
 - body:
   + uid
   + nombre
   + email
   + link
 
-### /createMeme POST
+### /createMeme POST [RICKY]
 - body:
   + nombre
   + idUser
   + link
 
-### /createComment POST
+### /createComment POST [RICKY]
 - body:
   + uidMeme
   + comment
 
-### /reaction POST
+### /reaction POST [RICKY]
 `Anadir tags a usuario`
 - body:
   + type:int  (like=0,dislike=1)
