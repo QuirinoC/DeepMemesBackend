@@ -17,10 +17,18 @@ sh run.sh
 ```
 ## TASKS FRONT END
  - [PACO] REMPLAZAR POPULAR -> RANDOM
+   + lo unico que hay que hacer es hacer fetch a getRandom,
+   + has un nuevo action en meme.js
+   + ya habia hecho un fetchRandom en getRelatedTo para que lo copies y lo pegues
  - [PACO] WHO TO FOLLOW -> PROFILE
+     + pon email, tags
  - [PACO] UI PROFILE 
       + LIKES
       + COMMENTS
+      + esto no se va a poder hacer como esta el back actualmente
+      + para que lo puedas hacer tienes que cambiar el back
+      + en las funciones de createComment y reaction del back
+      + tienes que guardar esos likes y comentarios en la coleccion de usuarios
  - [PACO] MEJORAR UI AUTH
  - [PACO] MEJORAR MEMECARD
  - [PACO] CREAR MEMEDETAILS.VUE (PARA VER LOS COMENTARIOS)
