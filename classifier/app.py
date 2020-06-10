@@ -53,7 +53,8 @@ def root():
 
 @app.route('/classify', methods=['POST'])
 def classifier():
-    url = request.json.get('url')
+    data = request.json or request.form.to_dict()
+    url = data.get('url')
 
     if not url:
         return "URL must be in post body"
