@@ -6,6 +6,8 @@ from flask_cors import CORS, cross_origin
 import torch
 from PIL import Image
 from torchvision import transforms
+import requests
+from io import BytesIO
 
 import urllib
 
@@ -21,13 +23,11 @@ app = Flask(__name__)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 
 
-def download_image(url: str):
-    url, filename = (
-        url, "tmp_image")
-    try:
-        urllib.URLopener().retrieve(url, filename)
-    except:
-        urllib.request.urlretrieve(url, filename)
+def download_image(url: str) -> 'PIL: Image':
+
+    response = requests.get(url)
+
+    img = Image.open(BytesIO(response.content))
 
 
 def transform_image(input_image: Image) -> 'Tensor':
@@ -46,11 +46,6 @@ def transform_image(input_image: Image) -> 'Tensor':
     return input_batch
 
 
-class Submission(Document):
-    link = StringField(required=True)
-    tags = ListField(StringField(max_length=30))
-
-
 @app.route('/')
 def root():
     return jsonify('Classifier API')
@@ -65,10 +60,8 @@ def classifier():
 
     print(f"Processing image: {url}")
     # Download image as tmp
-    download_image(
-        url
-    )
-    input_image = Image.open('tmp_image')
+    response = requests.get(url)
+    input_image = Image.open(BytesIO(response.content))
     input_batch = transform_image(input_image)
 
     # move the input and model to GPU for speed if available
@@ -79,11 +72,11 @@ def classifier():
     with torch.no_grad():
         output = model(input_batch)
 
-    predictions = output.max(1)
+    predictions = output
 
-    label_idx = predictions.indices.item()
+    top_labels = torch.topk(output, 10).indices.tolist()
 
-    return jsonify(label_idx)
+    return jsonify(top_labels[0])
 
 
 def process_image(image):
