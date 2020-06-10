@@ -14,7 +14,7 @@ connection = connect('deep_memes_database',
 # connect('deep_memes_database')
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"*": {"origins": "*"}})
+cors = CORS(app, resources={r"*": {"Access-Control-Allow-Origin": "*"}})
 
 # MODELS
 
