@@ -10,6 +10,7 @@ services:
       - "8080:8080"
     links:
       - db
+      - classifier
     volumes:
       - ./api/:/usr/app
     depends_on:
@@ -26,7 +27,7 @@ services:
       - "27017:27017"
     command: --quiet
   classifier:
-    container_name: deep_memes_classifer
+    container_name: deep_memes_classifier
     restart: on-failure
     build:
       context: .

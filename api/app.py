@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, make_response, request, render_template, Response
-
+import requests
 from mongoengine import *
 from models import *
 import os
@@ -132,9 +132,25 @@ def createUser():
         "</h1>")
 
 
+@app.route('/test_classifier', methods=['POST'])
+def test_classifier():
+    req = request.json
+
+    url = req.get('url')
+
+    if not url:
+        return "Invalid URL"
+
+    res = requests.post(f'http://deep_memes_classifier:8080/classify',
+                        data={"url": url})
+
+    return eval(res.text)
+
+
 @app.route('/createMeme', methods=['POST'])
 def createMeme():
     req = request.json
+
     meme = Meme(
         link=req["link"],
         title=req["title"],
@@ -142,6 +158,7 @@ def createMeme():
         likes=0,
         dislikes=0
     )
+
     meme.save()
     return make_response(
         "<h1>" +
