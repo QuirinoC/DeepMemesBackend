@@ -6,6 +6,8 @@ COPY ./python_modules/requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 RUN rm requirements.txt
 
+RUN pip install torch torchvision
+
 COPY ./classifier/ .
 
 CMD python3 app.py
