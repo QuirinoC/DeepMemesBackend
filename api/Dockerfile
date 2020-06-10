@@ -8,5 +8,6 @@ RUN rm requirements.txt
 
 COPY ./api/ .
 
+RUN pip install requests
 
 CMD python3 app.py
