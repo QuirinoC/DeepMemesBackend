@@ -27,6 +27,7 @@ class Meme(Document):
     comments = ListField(StringField(max_length=300))
     likes = IntField(required=True)
     dislikes = IntField(required=True)
+    labels = ListField(IntField(), required=False)
 
 
 class User(Document):
@@ -151,12 +152,24 @@ def test_classifier():
 def createMeme():
     req = request.json
 
+    url = req["link"]
+
+    labels_res = requests.post(f'http://deep_memes_classifier:8080/classify',
+                               data={"url": url})
+
+    try:
+        labels = labels_res.json()
+    except:
+        print(f'Error parsing labels: {labels_res}')
+        labels = []
+
     meme = Meme(
         link=req["link"],
         title=req["title"],
         email=req["email"],
         likes=0,
-        dislikes=0
+        dislikes=0,
+        labels=labels
     )
 
     meme.save()

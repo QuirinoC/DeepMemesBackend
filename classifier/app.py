@@ -11,7 +11,7 @@ from io import BytesIO
 
 import urllib
 
-model = torch.hub.load('pytorch/vision:v0.6.0', 'resnet152', pretrained=True)
+model = torch.hub.load('pytorch/vision:v0.6.0', 'resnet18', pretrained=True)
 
 connection = connect('deep_memes_database',
                      host='deep_memes_database',
